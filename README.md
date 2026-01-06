@@ -7,27 +7,8 @@ A role-based web application built using Flask and MySQL that allows users to pl
 
 📁 Project Structure
 
-   order-and-inventory-management-system/
-│
-├── app.py                  # Main Flask application (routes & logic)
-├── requirements.txt        # Python dependencies
-├── README.md               # Project documentation
-│
-├── static/
-│   ├── css/
-│   │   └── style.css       # Common styling for all pages
-│   └── images/             # UI images/icons (if any)
-│
-├── templates/
-│   ├── login.html          # Login page
-│   ├── register.html       # User registration page
-│   ├── dashboard.html      # Admin dashboard
-│   ├── products.html       # User product listing
-│   ├── orders.html         # User orders page
-│   ├── admin_products.html # Admin product management
-│   └── admin_orders.html   # Admin order management
-│
-├── venv/                   # Virtual environment (ignored in Git)
+  <img width="906" height="733" alt="image" src="https://github.com/user-attachments/assets/39cd68d9-5783-4587-8083-d7035188c41c" />
+
 
 
 ⚙️ Tech Stack
