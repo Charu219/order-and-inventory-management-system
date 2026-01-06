@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa, #eef2f7);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar {
+            background: #2c3e50;
+        }
+
+        .navbar a {
+            color: #fff !important;
+            font-weight: 500;
+            text-decoration: none; 
+        }
+
+
+        .navbar a:hover {
+    text-decoration: none;   /* ✅ keep underline away on hover */
+    color: #f1f1f1 !important;
+}
+
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .welcome-card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .stat-card h3 {
+            font-size: 34px;
+            margin: 10px 0 5px;
+        }
+
+        .stat-card span {
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .total { border-top: 6px solid #0d6efd; }
+        .delivered { border-top: 6px solid #198754; }
+        .active { border-top: 6px solid #ffc107; }
+        .cancelled { border-top: 6px solid #dc3545; }
+
+        .table-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+            margin-top: 30px;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .badge-placed {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-delivered {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .badge-cancelled {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .action-btn {
+            padding: 14px 22px;
+            font-size: 16px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand brand-title" href="#">Inventory System</a>
+
+        <div>
+            <a class="me-3" href="/user-dashboard">Dashboard</a>
+            <a class="me-3" href="/products">Products</a>
+            <a class="me-3" href="/orders">Orders</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- WELCOME -->
+    <div class="welcome-card">
+        <h2>👋 Welcome back!</h2>
+        <p class="mb-0">Here’s a quick overview of your order activity</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="stat-card total">
+                🧾
+                <h3>{{ total_orders }}</h3>
+                <span>Total Orders</span>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card delivered">
+                🚚
+                <h3>{{ delivered }}</h3>
+                <span>Delivered</span>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card active">
+                ⏳
+                <h3>{{ active }}</h3>
+                <span>Active Orders</span>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card cancelled">
+                ❌
+                <h3>{{ cancelled }}</h3>
+                <span>Cancelled</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECENT ORDERS -->
+    <div class="table-card">
+        <h4 class="mb-3">📦 Recent Orders</h4>
+
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in recent_orders %}
+                <tr>
+                    <td>#{{ order[0] }}</td>
+                    <td>{{ order[1] }}</td>
+                    <td>₹ {{ order[2] }}</td>
+                    <td>
+                        <span class="badge badge-{{ order[3]|lower }}">
+                            {{ order[3] }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="mt-4">
+            <a href="/products" class="btn btn-primary action-btn me-3">🛒 Browse Products</a>
+            <a href="/orders" class="btn btn-outline-primary action-btn">🧾 View All Orders</a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

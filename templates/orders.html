@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders | Inventory System</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f6f8;
+        }
+
+        /* ---------- NAVBAR (UNCHANGED) ---------- */
+         .navbar {
+            background: #2c3e50;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: #fff;
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+        }
+
+        .navbar a:hover {
+            color: #1abc9c;
+        }
+
+        /* ---------- PAGE CONTAINER ---------- */
+        .container {
+            padding: 40px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* ---------- CARD ---------- */
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        /* ---------- TABLE ---------- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f1f3f5;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            font-weight: 600;
+            color: #333;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        /* ---------- STATUS BADGES ---------- */
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .placed {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* ---------- ACTION BUTTON ---------- */
+        .btn-cancel {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-cancel:hover {
+            background: #2980b9;
+        }
+
+        .text-muted {
+            color: #888;
+            font-weight: 600;
+        }
+
+        /* ---------- EMPTY STATE ---------- */
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="brand">Inventory System</div>
+    <div>
+        <a href="/user-dashboard">Dashboard</a>
+        <a href="/products">Products</a>
+        <a href="/orders">Orders</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+    <h2>📦 My Orders</h2>
+
+    <div class="card">
+        {% if orders %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Total (₹)</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in orders %}
+                <tr>
+                    <td>#{{ o[0] }}</td>
+                    <td>{{ o[1] }}</td>
+                    <td>{{ "%.2f"|format(o[2]) }}</td>
+                    <td>
+                        {% if o[3] == 'PLACED' %}
+                            <span class="badge placed">PLACED</span>
+                        {% elif o[3] == 'DELIVERED' %}
+                            <span class="badge delivered">DELIVERED</span>
+                        {% else %}
+                            <span class="badge cancelled">CANCELLED</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if o[3] == 'PLACED' %}
+                            <a href="/cancel-order/{{ o[0] }}">
+                                <button class="btn-cancel">Cancel</button>
+                            </a>
+                        {% else %}
+                            <span class="text-muted">
+                                {{ o[3]|capitalize }}
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty">
+            You haven’t placed any orders yet.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

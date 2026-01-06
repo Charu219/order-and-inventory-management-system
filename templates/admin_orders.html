@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Orders | Inventory System</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body {
+            background: #f6f8fb;
+            font-family: Arial, sans-serif;
+        }
+
+         
+
+       /* ===== NAVBAR (ADMIN + USER SAME STYLE) ===== */
+.navbar {
+    background: #2f3e4e;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.navbar .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;   /* 🔥 controls spacing perfectly */
+}
+
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    opacity: 0.85;
+}
+
+
+
+
+
+        
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f1f5f9;
+            padding: 14px;
+            text-align: left;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+
+        /* STATUS BADGES */
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .placed {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .delivered {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .cancelled {
+            background: #fee2e2;
+            color: #7f1d1d;
+        }
+
+        /* ACTION CONTROLS */
+        select {
+            padding: 6px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            width: 100%;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            width: 100%;
+        }
+
+        .btn-save {
+            background: #3498db;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h1>Inventory System</h1>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/admin/products">Products</a>
+        <a href="/admin/orders">Orders</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>📦 Order Management</h2>
+
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Total (₹)</th>
+                <th>Status</th>
+                <th>Admin Action</th>
+            </tr>
+
+            {% for o in orders %}
+            <tr>
+                <!-- Order ID -->
+                <td>#{{ o[0] }}</td>
+
+                <!-- User -->
+                <td>User {{ o[1] }}</td>
+
+                <!-- Date -->
+                <td>{{ o[2] }}</td>
+
+                <!-- Total -->
+                <td>₹ {{ o[3] }}</td>
+
+                <!-- Status -->
+                <td>
+                    {% if o[4] == 'DELIVERED' %}
+                        <span class="badge delivered">DELIVERED</span>
+                    {% elif o[4] == 'PLACED' %}
+                        <span class="badge placed">PLACED</span>
+                    {% else %}
+                        <span class="badge cancelled">CANCELLED</span>
+                    {% endif %}
+                </td>
+
+                <!-- Admin Actions -->
+                <td>
+                    <!-- UPDATE STATUS -->
+                    <form method="POST" action="/admin/order/update/{{ o[0] }}">
+                        <select name="status">
+                            <option value="PLACED" {{ 'selected' if o[4]=='PLACED' }}>PLACED</option>
+                            <option value="DELIVERED" {{ 'selected' if o[4]=='DELIVERED' }}>DELIVERED</option>
+                            <option value="CANCELLED" {{ 'selected' if o[4]=='CANCELLED' }}>CANCELLED</option>
+                        </select>
+                        <button type="submit" class="btn btn-save">Update</button>
+                    </form>
+
+                    <!-- DELETE ORDER -->
+                    <form method="POST"
+                          action="/admin/order/delete/{{ o[0] }}"
+                          onsubmit="return confirm('Delete this order?');">
+                        <button type="submit" class="btn btn-delete">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>

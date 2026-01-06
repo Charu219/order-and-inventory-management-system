@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | Inventory System</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f4f6f9;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #2c3e50;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: #fff;
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+        }
+
+        .navbar a:hover {
+            color: black;
+        }
+
+        /* CONTAINER */
+        .container {
+            padding: 35px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* WELCOME */
+        .welcome {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            margin-bottom: 35px;
+        }
+
+        .welcome h2 {
+            margin: 0;
+        }
+
+        .welcome p {
+            color: #555;
+            margin-top: 8px;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin: 10px 0;
+            font-size: 26px;
+        }
+
+        .card p {
+            margin: 0;
+            color: #666;
+        }
+
+        .blue { border-top: 5px solid #3498db; }
+        .green { border-top: 5px solid #2ecc71; }
+        .orange { border-top: 5px solid #f39c12; }
+        .red { border-top: 5px solid #e74c3c; }
+
+        /* CHART */
+        .chart-box {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h1>Inventory System</h1>
+    <div>
+       <a href="/dashboard">Dashboard</a>
+       <a href="/admin/products">Products</a>
+       <a href="/admin/orders">Orders</a>
+       <a href="/logout">Logout</a>
+
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+    <!-- WELCOME -->
+    <div class="welcome">
+        <h2>📊 Admin Dashboard</h2>
+        <p>Overview of sales, orders and inventory performance</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="card blue">
+            <h3>₹ {{ total_revenue }}</h3>
+            <p>Total Revenue</p>
+        </div>
+
+        <div class="card green">
+            <h3>{{ total_orders }}</h3>
+            <p>Total Orders</p>
+        </div>
+
+        <div class="card orange">
+            <h3>{{ delivered_orders }}</h3>
+            <p>Delivered Orders</p>
+        </div>
+
+        <div class="card red">
+            <h3>{{ cancelled_orders }}</h3>
+            <p>Cancelled Orders</p>
+        </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-box">
+        <h3>📈 Daily Sales</h3>
+        <canvas id="salesChart"></canvas>
+    </div>
+
+</div>
+
+<script>
+    fetch('/sales-data')
+        .then(res => res.json())
+        .then(data => {
+            const labels = data.data.map(d => d[0]);
+            const values = data.data.map(d => d[1]);
+
+            new Chart(document.getElementById('salesChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Daily Sales',
+                        data: values,
+                        backgroundColor: '#3498db'
+                    }]
+                }
+            });
+        });
+</script>
+
+</body>
+</html>
