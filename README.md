@@ -2,7 +2,7 @@
 
 **Live Demo**
 
-**👉 SEE LIVE:** order-and-inventory-management-system-production.up.railway.app
+**👉 SEE LIVE:** https://order-and-inventory-management-system-production.up.railway.app/
 
 🔐 Demo Credentials
 
