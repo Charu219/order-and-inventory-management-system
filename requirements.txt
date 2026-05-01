@@ -1,3 +1,6 @@
-flask
-flask-mysqldb
+Flask
+Flask-MySQLdb
 flask-login
+gunicorn
+mysqlclient
+python-dotenv

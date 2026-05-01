@@ -22,7 +22,7 @@ def login():
 
         cur = mysql.connection.cursor()
         cur.execute(
-            "SELECT user_id, role FROM users WHERE username=%s AND password=%s",
+            "SELECT id, role FROM users WHERE username=%s AND password=%s",
             (username, password)
         )
         user = cur.fetchone()
@@ -192,7 +192,7 @@ def delete_product(product_id):
         return redirect(url_for('login'))
 
     cur = mysql.connection.cursor()
-    cur.execute("DELETE FROM products WHERE product_id=%s", (product_id,))
+    cur.execute("DELETE FROM products WHERE id=%s", (product_id,))
 
     mysql.connection.commit()
 
@@ -292,7 +292,7 @@ def place_order():
     quantity = int(request.form['quantity'])
 
     cur = mysql.connection.cursor()
-    cur.execute("SELECT price, stock FROM products WHERE product_id=%s", (product_id,))
+    cur.execute("SELECT price, stock FROM products WHERE id=%s", (product_id,))
     product = cur.fetchone()
 
     if not product or product[1] < quantity:
@@ -312,7 +312,7 @@ def place_order():
     )
 
     cur.execute(
-        "UPDATE products SET stock = stock - %s WHERE product_id = %s",
+        "UPDATE products SET stock = stock - %s WHERE id = %s",
         (quantity, product_id)
     )
 
@@ -344,7 +344,7 @@ def cancel_order(order_id):
 
     for item in items:
         cur.execute(
-            "UPDATE products SET stock = stock + %s WHERE product_id=%s",
+            "UPDATE products SET stock = stock + %s WHERE id=%s",
             (item[1], item[0])
         )
 
@@ -370,7 +370,7 @@ def register():
             return render_template('register.html', error="Passwords do not match")
 
         cur = mysql.connection.cursor()
-        cur.execute("SELECT user_id FROM users WHERE username=%s", (username,))
+        cur.execute("SELECT id FROM users WHERE username=%s", (username,))
         if cur.fetchone():
             return render_template('register.html', error="Username already exists")
 
@@ -406,4 +406,4 @@ def sales_data():
 
 # ================= RUN =================
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
