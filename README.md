@@ -1,5 +1,17 @@
 # order-and-inventory-management-system
 
+Live Demo
+
+👉 SEE LIVE: order-and-inventory-management-system-production.up.railway.app
+
+🔐 Demo Credentials
+👨‍💼 Admin Login
+Username: admin
+Password: admin123
+👤 Customer Login
+Username: charu
+Password: 123
+
 📦 Order and Inventory Management System
 
 A role-based web application built using Flask and MySQL that allows users to place orders and administrators to manage products, inventory, and orders efficiently through a centralized dashboard.
