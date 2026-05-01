@@ -5,9 +5,11 @@ Live Demo
 👉 SEE LIVE: order-and-inventory-management-system-production.up.railway.app
 
 🔐 Demo Credentials
+
 👨‍💼 Admin Login
 Username: admin
 Password: admin123
+
 👤 Customer Login
 Username: charu
 Password: 123
